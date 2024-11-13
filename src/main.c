@@ -1,5 +1,10 @@
 #include<stdio.h>
 
+#include "main.h"
+#include "command.h"
+/*
+* This function converts a 10 base number to a hexadecimal digit.
+*/
 char getHexaDigit(int num){
     switch (num)
     {
