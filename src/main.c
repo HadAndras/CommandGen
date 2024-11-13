@@ -24,8 +24,7 @@ void toHex(int input[], char output[]){
 
 void checksum(int input[], char output[]){
     int checksum = 0;
-    for (int i = 0; i < 7; i++)
-    {
+    for (int i = 0; i < 7; i++) {
         checksum += input[i];
     }
     checksum %= 256;
