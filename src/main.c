@@ -1,58 +1,29 @@
 #include<stdio.h>
-
 #include "main.h"
 #include "command.h"
-/*
-* This function converts a 10 base number to a hexadecimal digit.
+#include "utils.h"
+
+/**
+ * This function calculates the checksum of the input array and writes it to the output array.
 */
-char getHexaDigit(int num){
-    switch (num)
-    {
-        case 10: return 'A';
-        case 11: return 'B';
-        case 12: return 'C';
-        case 13: return 'D';
-        case 14: return 'E';
-        case 15: return 'F';
-        default: return (char)(num+48);
-    }
-}
-
-void toHex(int input[], char output[]){
-    for (int i = 0; i < 7; i++)
-    {
-        output[2*i] = getHexaDigit(input[i] / 16);
-        output[2*i+1] = getHexaDigit(input[i] % 16);
-    }
-    
-}
-
-void checksum(int input[], char output[]){
+int checksum(int input[]){
     int checksum = 0;
     for (int i = 0; i < 7; i++) {
         checksum += input[i];
     }
-    checksum %= 256;
-    output[14] = getHexaDigit(checksum / 16);
-    output[15] = getHexaDigit(checksum % 16);
+    return checksum;
 }
 
 void commandGen(){
-    char output[16] = {0};
-    int input[7] = {0};
-    for (int i = 0; i < 7; i++)
-    {
-        printf("%d. data(8 bit number): ", i);
-        scanf("%d", &input[i]);
-    }
-    toHex(input, output);
-    checksum(input, output);
+    int command[8] = {0};
+    gen_command(command);
+    command[7] = checksum(command);
     printf("w");
-    for (int j = 0; j < 16; j++)
+    for (int j = 0; j < 8; j++)
     {
-        printf("%c", output[j]);
+        printf("%02X", command[j]);
     }
-
+    printf("\n");
 }
 
 int getDecNum(char num){
@@ -104,16 +75,12 @@ int main(){
     scanf("%c", &command);
     while (command == 'g' || command == 'r' || command == '\n')
     {
-        if (command == 'g')
-        {
-            commandGen();
+        if (command == 'g') commandGen();
+        else if (command == 'r') readData();
+        else {
+            printf("\nType in a new command:\n");
+            scanf("%c", &command);
         }
-        if (command == 'r')
-        {
-            readData();
-        }
-        printf("\nType in a new command:\n");
-        scanf("%c", &command);
     }
     return 0;
 }
