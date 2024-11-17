@@ -26,12 +26,12 @@ Command commands[] = {
 };
 
 int ask_int(char* text, int lower, int higher) {
-    int answer = -1;
-    while (!(answer >= lower && answer <= higher)) {
+    int result = lower-1;
+    while (!(result >= lower && result <= higher)) {
         printf(text);
-        scanf("%d", &answer);
+        scanf("%d", &result);
     }
-    return answer;
+    return result;
 }
 
 void gen_command(int* command_data) {
