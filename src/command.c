@@ -5,7 +5,7 @@
 #include "utils.h"
 #include <stdio.h>
 
-void ask_int(char* text, int* result, int lower, int higher);
+int ask_int(char* text, int lower, int higher);
 
 typedef struct Command {
     char *name;
@@ -25,11 +25,13 @@ Command commands[] = {
     {"Request measurement", 0x07, request_measure},
 };
 
-void ask_int(char* text, int* result, int lower, int higher) {
-    while (!(*result >= lower && *result <= higher)) {
+int ask_int(char* text, int lower, int higher) {
+    int answer = -1;
+    while (!(answer >= lower && answer <= higher)) {
         printf(text);
-        scanf("%d", result);
+        scanf("%d", &answer);
     }
+    return answer;
 }
 
 void gen_command(int* command_data) {
@@ -40,27 +42,20 @@ void gen_command(int* command_data) {
     scanf("%d", &command_key);
     Command command = commands[command_key];
     command_data[0] = command.code;
-    int command_id = -1;
-    ask_int("Command Id [0-255]:", &command_id, 0, 255);
-    command_data[1] = command_id;
+    command_data[1] = ask_int("Command Id [0-255]:", 0, 255);
 
     command.command(command_data);
 }
 
 void set_dur(int* data) {
     printf("Set duration command\n");
-    int mode = -1;
-    ask_int("MAX_HITS [0] or MAX_TIME mode[1]?",&mode, 0, 1);
-    int okaying = -1;
-    ask_int("Okaying (0 = no, 1 = yes)?", &okaying, 0, 1);
-    int repetitions = -1;
-    ask_int("Repetitions [0-63]?", &repetitions, 0, 63);
+    int mode = ask_int("MAX_HITS [0] or MAX_TIME mode[1]?", 0, 1);
+    int okaying = ask_int("Okaying (0 = no, 1 = yes)?", 0, 1);
+    int repetitions = ask_int("Repetitions [0-63]?", 0, 63);
     int repetition_byte = repetitions << 2 | mode << 1 | okaying;
     
-    int duration = -1;
-    ask_int("Duration [0-65535]:", &duration, 0, 65535);
-    int breaktime = -1;
-    ask_int("Breaktime (the time between two measurement in seconds) [0-65535]?", &breaktime, 0, 65535);
+    int duration = ask_int("Duration [0-65535]:", 0, 65535);
+    int breaktime = ask_int("Breaktime (the time between two measurement in seconds) [0-65535]?", 0, 65535);
 
     data[2] = repetition_byte;
     data[3] = duration >> 8;
@@ -71,6 +66,15 @@ void set_dur(int* data) {
 
 void set_scale(int * data) {
     printf("Set scale command\n");
+    int min_voltage = ask_int("Minimum voltage [0-4095]:", 0, 4095);
+    int max_voltage = ask_int("Maximum voltage [0-4095]:", 0, 4095);
+
+    data[2] = min_voltage >> 4;
+    data[3] = (min_voltage & 0xF) << 4 | max_voltage >> 8;
+    data[4] = max_voltage & 0xFF;
+
+    data[5] = ask_int("Resolution [1-255]:", 1, 255);
+    data[6] = ask_int("Sampling [1-255]:", 1, 255);
 }
 
 void timesync(int* data) {
