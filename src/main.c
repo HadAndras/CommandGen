@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include <stdint.h>
 #include "main.h"
 #include "command.h"
 #include "utils.h"
@@ -7,11 +8,11 @@
  * This function calculates the checksum of the input array and writes it to the output array.
 */
 int checksum(int input[]){
-    int checksum = 0;
+    uint8_t checksum = 0;
     for (int i = 0; i < 7; i++) {
         checksum += input[i];
     }
-    return checksum;
+    return (int)checksum;
 }
 
 void commandGen(){
@@ -66,17 +67,32 @@ void readData(){
     
 }
 
+void genTimesync() {
+    int command[8] = {0x36};
+    timesync_command(command);
+    printf("w");
+    for (int j = 0; j < 8; j++)
+    {
+        printf("%02X", command[j]);
+    }
+    printf("\n");
+}
 
+/**
+ * The entry point of the program.
+*/
 int main(){
     char command = 'g';
     printf("Type g if you want to generate a hexa command from numbers\n");
     printf("Type r if you want to read a hexa code, which was sent by the device\n");
+    printf("Type t for timesync\n");
     printf("Type anything else if you want to exit\n");
     scanf("%c", &command);
-    while (command == 'g' || command == 'r' || command == '\n')
+    while (command == 'g' || command == 'r' || command == '\n' || command == 't')
     {
         if (command == 'g') commandGen();
         else if (command == 'r') readData();
+        else if (command == 't') genTimesync();
         else {
             printf("\nType in a new command:\n");
             scanf("%c", &command);
