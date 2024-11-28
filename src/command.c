@@ -53,7 +53,7 @@ void set_dur(int* data) {
     int okaying = ask_int("Okaying (0 = no, 1 = yes)?", 0, 1);
     int repetitions = ask_int("Repetitions [0-63]?", 0, 63);
     int repetition_byte = repetitions << 2 | mode << 1 | okaying;
-    
+
     int duration = ask_int("Duration [0-65535]:", 0, 65535);
     int breaktime = ask_int("Breaktime (the time between two measurement in seconds) [0-65535]?", 0, 65535);
 
@@ -103,10 +103,12 @@ long ask_time(char* text) {
 void request_measure(int* data) {
     printf("Request measurement command\n");
     long timestamp = ask_time("Enter the timestamp");
-    data[2] = timestamp >> 24;
-    data[3] = (timestamp >> 16) & 0xFF;
-    data[4] = (timestamp >> 8) & 0xFF;
-    data[5] = timestamp & 0xFF;
+
+    // Timestamp is coded in reverse order because the satellite needs little-endian timestamps
+    data[5] = timestamp >> 24;
+    data[4] = (timestamp >> 16) & 0xFF;
+    data[3] = (timestamp >> 8) & 0xFF;
+    data[2] = timestamp & 0xFF;
 
     int priority = ask_int("Is the measurement priority? [0 = n, 1 =y]: ", 0, 1);
     int header = ask_int("Does the measurement need a header packet? [0 = n, 1 = y]", 0, 1);
@@ -117,10 +119,12 @@ void request_measure(int* data) {
 void request_selftest(int* data) {
     printf("Request selftest command\n");
     long timestamp = ask_time("Enter the timestamp");
-    data[2] = timestamp >> 24;
-    data[3] = (timestamp >> 16) & 0xFF;
-    data[4] = (timestamp >> 8) & 0xFF;
-    data[5] = timestamp & 0xFF;
+
+    // Timestamp is coded in reverse order because the satellite needs little-endian timestamps
+    data[5] = timestamp >> 24;
+    data[4] = (timestamp >> 16) & 0xFF;
+    data[3] = (timestamp >> 8) & 0xFF;
+    data[2] = timestamp & 0xFF;
 
     data[6] = ask_int("Is the measurement priority? [0 = n, 1 =y]: ", 0, 1);
 }
