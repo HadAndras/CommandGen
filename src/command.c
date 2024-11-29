@@ -80,7 +80,7 @@ void set_scale(int * data) {
 long ask_time(char* text) {
     // Absolute time
     int year, month, day, hour, minute, second;
-    year = ask_int("Year [1970 - ]:", 1970, 10000);
+    year = ask_int("Year [1971 - ]:", 1970, 10000);
     month = ask_int("Month [1-12]:", 1, 12);
     day = ask_int("Day [1-31]:", 1, 31);
     hour = ask_int("Hour [0-23]:", 0, 23);
@@ -132,8 +132,8 @@ void request_selftest(int* data) {
 void timesync_command(int* command_data) {
     printf("Timesync command\n");
     long timestamp = ask_time("Enter the timestamp");
-    command_data[1] = timestamp >> 24;
-    command_data[2] = (timestamp >> 16) & 0xFF;
-    command_data[3] = (timestamp >> 8) & 0xFF;
-    command_data[4] = timestamp & 0xFF;
+    command_data[4] = timestamp >> 24;
+    command_data[3] = (timestamp >> 16) & 0xFF;
+    command_data[2] = (timestamp >> 8) & 0xFF;
+    command_data[1] = timestamp & 0xFF;
 }
