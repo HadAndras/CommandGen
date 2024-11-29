@@ -24,7 +24,7 @@ void commandGen(){
     {
         printf("%02X", command[j]);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 int getDecNum(char num){
@@ -82,21 +82,17 @@ void genTimesync() {
  * The entry point of the program.
 */
 int main(){
-    char command = '\n';
-    printf("Type g if you want to generate a hexa command\n");
-    printf("Type r if you want to read a hexa code, which was sent by the device\n");
-    printf("Type t for timesync\n");
-    printf("Type anything else if you want to exit\n");
-    scanf("%c", &command);
-    while (command == 'g' || command == 'r' || command == '\n' || command == 't')
+    char command;
+    while (1)
     {
+        printf("Type g if you want to generate a hexa command\n");
+        printf("Type r if you want to read a hexa code, which was sent by the device\n");
+        printf("Type t for timesync\n");
+        printf("Press Ctrl + C at any point if you want to exit\n");
+        scanf("%c", &command);
         if (command == 'g') commandGen();
         else if (command == 'r') readData();
         else if (command == 't') genTimesync();
-        else {
-            printf("\nType in a new command:\n");
-            scanf("%c", &command);
-        }
     }
     return 0;
 }
