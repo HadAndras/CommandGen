@@ -132,8 +132,8 @@ void request_selftest(int* data) {
 void timesync_command(int* command_data) {
     printf("Timesync command\n");
     long timestamp = ask_time("Enter the timestamp");
-    command_data[4] = timestamp >> 24;
-    command_data[3] = (timestamp >> 16) & 0xFF;
-    command_data[2] = (timestamp >> 8) & 0xFF;
-    command_data[1] = timestamp & 0xFF;
+    command_data[3] = timestamp >> 24;
+    command_data[2] = (timestamp >> 16) & 0xFF;
+    command_data[1] = (timestamp >> 8) & 0xFF;
+    command_data[0] = timestamp & 0xFF;
 }

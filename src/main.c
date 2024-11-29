@@ -68,10 +68,10 @@ void readData(){
 }
 
 void genTimesync() {
-    int command[5] = {0x54};
+    int command[4] = {0};
     timesync_command(command);
     printf("l");
-    for (int j = 0; j < 5; j++)
+    for (int j = 0; j < 4; j++)
     {
         printf("%02X", command[j]);
     }
