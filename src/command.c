@@ -37,7 +37,7 @@ void gen_command(int* command_data) {
 
 void set_dur(int* data) {
     printf("Set duration command\n");
-    int mode = ask_int("MAX_HITS [0] or MAX_TIME mode[1]?", 0, 1);
+    int mode = ask_int("MAX_TIME [0] or MAX_HITS mode[1]?", 0, 1);
     int okaying = ask_int("Okaying (0 = no, 1 = yes)?", 0, 1);
     int repetitions = ask_int("Repetitions [0-63]?", 0, 63);
     int repetition_byte = repetitions << 2 | mode << 1 | okaying;
