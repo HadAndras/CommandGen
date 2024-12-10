@@ -54,9 +54,10 @@ void set_dur(int* data) {
 
 void set_scale(int * data) {
     printf("Set scale command\n");
-    int min_voltage = ask_int("Minimum voltage [0-4095]:", 0, 4095);
-    int max_voltage = ask_int("Maximum voltage [0-4095]:", 0, 4095);
-
+    int min_voltage_raw = 0;
+    int min_voltage = ask_threshold("Minimum voltage", 0, &min_voltage_raw);
+    int max_voltage = ask_threshold("Maximum voltage", min_voltage_raw, 0);
+    
     data[2] = min_voltage >> 4;
     data[3] = (min_voltage & 0xF) << 4 | max_voltage >> 8;
     data[4] = max_voltage & 0xFF;

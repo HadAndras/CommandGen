@@ -33,3 +33,11 @@ long ask_time(char* text) {
     printf("Epoch timestamp: %ld\n", timestamp);
     return (long)timestamp;
 }
+
+int ask_threshold(char* text, int lower, int* voltage_output) {
+    char prompt[100];
+    sprintf(prompt, "%s [%d-3300 mV]: ", text, lower);
+    int threshold = ask_int(prompt, lower, 3300);
+    if(voltage_output != 0) *voltage_output = threshold;
+    return ((double)threshold / (double)3300) * 4095;
+}
