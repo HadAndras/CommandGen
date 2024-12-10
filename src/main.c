@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include "main.h"
 #include "command.h"
-#include "utils.h"
 
 /**
  * This function calculates the checksum of the input array and writes it to the output array.

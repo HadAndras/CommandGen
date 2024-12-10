@@ -2,12 +2,9 @@
  * This module handles command generation over various steps.
 */
 #include "command.h"
-#include "utils.h"
 #include <stdio.h>
-#include <time.h>
+#include "prompt.h"
 #include <stdlib.h>
-
-int ask_int(char* text, int lower, int higher);
 
 typedef struct Command {
     char *name;
@@ -26,15 +23,6 @@ Command commands[] = {
     {"Request measurement", 0x07, request_measure},
     {"Request selftest", 0x06, request_selftest}
 };
-
-int ask_int(char* text, int lower, int higher) {
-    int result = lower-1;
-    while (!(result >= lower && result <= higher)) {
-        printf(text);
-        scanf("%d", &result);
-    }
-    return result;
-}
 
 void gen_command(int* command_data) {
     printf("Select a command:\n");
@@ -75,29 +63,6 @@ void set_scale(int * data) {
 
     data[5] = ask_int("Resolution [1-255]:", 1, 255);
     data[6] = ask_int("Sampling [1-255]:", 1, 255);
-}
-
-long ask_time(char* text) {
-    // Absolute time
-    int year, month, day, hour, minute, second;
-    year = ask_int("Year [1971 - ]:", 1970, 10000);
-    month = ask_int("Month [1-12]:", 1, 12);
-    day = ask_int("Day [1-31]:", 1, 31);
-    hour = ask_int("Hour [0-23]:", 0, 23);
-    minute = ask_int("Minute [0-59]:", 0, 59);
-    second = ask_int("Second [0-59]:", 0, 59);
-
-    struct tm timeinfo = {0};
-    timeinfo.tm_year = year - 1900;
-    timeinfo.tm_mon = month - 1;
-    timeinfo.tm_mday = day;
-    timeinfo.tm_hour = hour;
-    timeinfo.tm_min = minute;
-    timeinfo.tm_sec = second;
-
-    time_t timestamp = mktime(&timeinfo);
-    printf("Epoch timestamp: %ld\n", timestamp);
-    return (long)timestamp;
 }
 
 void request_measure(int* data) {
