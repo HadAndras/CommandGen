@@ -17,18 +17,21 @@ void set_dur(int *data);
 void set_scale(int *data);
 void request_measure(int *data);
 void request_selftest(int * data);
+void util_command(int* data);
 
 Command commands[] = {
     {"Set duration", 0xE0, set_dur},
     {"Set scale", 0xD0, set_scale},
     {"Request measurement", 0x07, request_measure},
-    {"Request selftest", 0x06, request_selftest}
+    {"Request selftest", 0x06, request_selftest},
+    {"Reset", 0x0F, util_command},
+    {"Restart", 0x0E, util_command}
 };
 
 void gen_command(int* command_data) {
     printf("Select a command:\n");
-    for (int i = 0; i < 4; i++) printf("[%d]. %s\n", i, commands[i].name);
-    int command_key = ask_int("Choose command [0-3]: ", 0, 3);
+    for (int i = 0; i < 6; i++) printf("[%d]. %s\n", i, commands[i].name);
+    int command_key = ask_int("Choose command [0-3]: ", 0, 6);
     Command command = commands[command_key];
     command_data[0] = command.code;
     command_data[1] = ask_int("Command Id [0-255]:", 0, 255);
@@ -114,4 +117,8 @@ void timesync_command(int* command_data) {
     command_data[2] = (timestamp >> 16) & 0xFF;
     command_data[1] = (timestamp >> 8) & 0xFF;
     command_data[0] = timestamp & 0xFF;
+}
+
+void util_command(int* data) {
+    return;
 }
