@@ -91,10 +91,9 @@ void request_measure(int* data) {
     data[3] = (timestamp >> 8) & 0xFF;
     data[2] = timestamp & 0xFF;
 
-    int priority = ask_int("Is the measurement priority? [0 = n, 1 =y]: ", 0, 1);
     int header = ask_int("Does the measurement need a header packet? [0 = n, 1 = y]", 0, 1);
 
-    data[6] = priority << 7 | (header << 6);
+    data[6] = header << 6;
 }
 
 void request_selftest(int* data) {
@@ -106,8 +105,6 @@ void request_selftest(int* data) {
     data[4] = (timestamp >> 16) & 0xFF;
     data[3] = (timestamp >> 8) & 0xFF;
     data[2] = timestamp & 0xFF;
-
-    data[6] = ask_int("Is the measurement priority? [0 = n, 1 =y]: ", 0, 1);
 }
 
 void timesync_command(int* command_data) {
