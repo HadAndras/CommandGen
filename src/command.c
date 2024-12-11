@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "prompt.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct Command {
     char *name;
@@ -62,7 +63,18 @@ void set_scale(int * data) {
     data[3] = (min_voltage & 0xF) << 4 | max_voltage >> 8;
     data[4] = max_voltage & 0xFF;
 
-    data[5] = ask_int("Resolution [1-255]:", 1, 255);
+    bool check_res (int num) {
+        const int items[] = {2, 4, 8, 16, 32, 64, 128 };
+        for (int i = 0; i < 7; i++)
+        {
+            if (num == items[i]) return true;
+        }
+        return false;
+    }
+
+    do {
+        data[5] = ask_int("Resolution [1-255]:", 1, 255);
+    } while(!check_res(data[5]));
     data[6] = ask_int("Sampling [1-255]:", 1, 255);
 }
 
