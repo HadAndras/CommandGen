@@ -12,6 +12,9 @@ int ask_int(char* text, int lower, int higher) {
 }
 
 long ask_time(char* text) {
+    if(ask_int("Is this an instant measurement? [0 = n, 1 = y]: ", 0, 1) == 1) {
+        return 0xFFFFFFFF;
+    }
     // Absolute time
     int year, month, day, hour, minute, second;
     year = ask_int("Year [1971 - ]:", 1970, 10000);
