@@ -84,13 +84,13 @@ void set_scale(int * data) {
 void request_measure(int* data) {
     printf("Request measurement command\n");
     long timestamp = ask_time("Enter the timestamp");
-
+    
     // Timestamp is coded in reverse order because the satellite needs little-endian timestamps
-    data[5] = timestamp >> 24;
+    data[5] = (timestamp >> 24) & 0xFF;
     data[4] = (timestamp >> 16) & 0xFF;
     data[3] = (timestamp >> 8) & 0xFF;
     data[2] = timestamp & 0xFF;
-
+    
     int header = ask_int("Does the measurement need a header packet? [0 = n, 1 = y]", 0, 1);
 
     data[6] = header << 6;
