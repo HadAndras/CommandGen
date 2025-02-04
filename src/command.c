@@ -31,7 +31,7 @@ Command commands[] = {
 void gen_command(int* command_data) {
     printf("Select a command:\n");
     for (int i = 0; i < 6; i++) printf("[%d]. %s\n", i, commands[i].name);
-    int command_key = ask_int("Choose command [0-3]: ", 0, 6);
+    int command_key = ask_int("Choose command [0-5]: ", 0, 6);
     Command command = commands[command_key];
     command_data[0] = command.code;
     command_data[1] = ask_int("Command Id [0-255]:", 0, 255);
@@ -76,7 +76,7 @@ void set_scale(int * data) {
     }
 
     do {
-        data[5] = ask_int("Resolution [1-255]:", 1, 255);
+        data[5] = ask_int("Resolution [2-128]:", 2, 128);
     } while(!check_res(data[5]));
     data[6] = ask_int("Sampling [1-255]:", 1, 255);
 }
