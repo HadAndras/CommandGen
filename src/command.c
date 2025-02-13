@@ -90,9 +90,10 @@ void request_measure(int* data) {
     data[3] = (timestamp >> 8) & 0xFF;
     data[2] = timestamp & 0xFF;
 
+    int continue_with_full_channel = !ask_int("Do we continue the measurement when a channel is fulled out? [0 = n, 1 = y]", 0, 1);
     int header = ask_int("Does the measurement need a header packet? [0 = n, 1 = y]", 0, 1);
+    data[6] = (continue_with_full_channel << 7) | (header << 6);
 
-    data[6] = header << 6;
 }
 
 void request_selftest(int* data) {
