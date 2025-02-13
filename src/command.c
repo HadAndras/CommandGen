@@ -4,7 +4,6 @@
 #include "command.h"
 #include <stdio.h>
 #include "prompt.h"
-#include <stdlib.h>
 #include <stdbool.h>
 
 typedef struct Command {
@@ -61,9 +60,9 @@ void set_scale(int * data) {
     int min_voltage_raw = 0;
     int min_voltage = ask_threshold("Minimum voltage", 0, &min_voltage_raw);
     int max_voltage = ask_threshold("Maximum voltage", min_voltage_raw, 0);
-    
+
     data[2] = min_voltage >> 4;
-    data[3] = (min_voltage & 0xF) << 4 | max_voltage >> 8;
+    data[3] = (min_voltage & 0xF) << 4 | max_voltage >> 4;
     data[4] = max_voltage & 0xFF;
 
     bool check_res (int num) {
@@ -84,13 +83,13 @@ void set_scale(int * data) {
 void request_measure(int* data) {
     printf("Request measurement command\n");
     long timestamp = ask_time("Enter the timestamp");
-    
+
     // Timestamp is coded in reverse order because the satellite needs little-endian timestamps
     data[5] = (timestamp >> 24) & 0xFF;
     data[4] = (timestamp >> 16) & 0xFF;
     data[3] = (timestamp >> 8) & 0xFF;
     data[2] = timestamp & 0xFF;
-    
+
     int header = ask_int("Does the measurement need a header packet? [0 = n, 1 = y]", 0, 1);
 
     data[6] = header << 6;
