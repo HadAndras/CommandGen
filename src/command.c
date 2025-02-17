@@ -62,7 +62,7 @@ void set_scale(int * data) {
     int max_voltage = ask_threshold("Maximum voltage", min_voltage_raw, 0);
 
     data[2] = min_voltage >> 4;
-    data[3] = (min_voltage & 0xF) << 4 | max_voltage >> 4;
+    data[3] = (min_voltage & 0xF) << 4 | (max_voltage >> 8);
     data[4] = max_voltage & 0xFF;
 
     bool check_res (int num) {
