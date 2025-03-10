@@ -2,22 +2,25 @@
 #include <stdio.h>
 #include <time.h>
 
-int ask_int(char* text, int lower, int higher) {
-    int result = lower-1;
+long long ask_int(char* text, long long lower, long long higher) {
+    long long result = lower-1;
     while (!(result >= lower && result <= higher)) {
         printf(text);
-        scanf("%d", &result);
+        scanf("%lld", &result);
     }
     return result;
 }
 
-long ask_time(char* text) {
+long long ask_time(char* text) {
     if(ask_int("Is this an instant measurement? [0 = n, 1 = y]: ", 0, 1) == 1) {
         return 0xFFFFFFFF;
     }
+    long long timestamp;
+    timestamp = (long long)ask_int("Enter manually: (in decimal)", 0, 4294967295);
     // Absolute time
+    /*
     int year, month, day, hour, minute, second;
-    year = ask_int("Year [1971 - ]:", 1970, 10000);
+    year = ask_int("Year [1970 - ]:", 1970, 10000);
     month = ask_int("Month [1-12]:", 1, 12);
     day = ask_int("Day [1-31]:", 1, 31);
     hour = ask_int("Hour [0-23]:", 0, 23);
@@ -33,8 +36,8 @@ long ask_time(char* text) {
     timeinfo.tm_sec = second;
 
     time_t timestamp = mktime(&timeinfo);
-    printf("Epoch timestamp: %ld\n", timestamp);
-    return (long)timestamp;
+    printf("Epoch timestamp: %ld\n", timestamp); */
+    return timestamp;
 }
 
 int ask_threshold(char* text, int lower, int* voltage_output) {
