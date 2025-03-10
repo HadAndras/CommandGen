@@ -6,13 +6,43 @@
 /**
  * This function calculates the checksum of the input array and writes it to the output array.
 */
-int checksum(int input[]){
-    uint8_t checksum = 0;
+/*uint8_t checksum(int input[]){
+    uint8_t checksum_var = 0;
+    uint16_t sum = 0;
     for (int i = 0; i < 7; i++) {
-        checksum += input[i];
+        sum += input[i];
     }
-    return (int)checksum;
+    checksum_var = (uint8_t)sum;
+    return checksum_var;
+} */
+
+int power_calc(int base, int exponent){         //power function / hatvány függvény
+    int value = 1;
+    for (int i = 0; i < exponent; i++){
+        value = value * base;
+    }
+    return value;
 }
+
+uint8_t checksum(int input[]){                      // new checksum
+    uint8_t sum = 0;                                // return value
+    uint8_t count[8];                               // for storing seperately
+
+    for (int i = 0; i <= 7; i++) {                  // go through each byte
+
+        count[i] = (uint8_t)input[i];
+
+        for (int k = 7; k >= 0; k--){               // count the number of decimal places with ones in binary
+            if (count[i] >= power_calc(2, k)){
+                count[i] = count[i] - power_calc(2, k);
+                sum++;                              // add them up
+            }
+        }
+    }
+    return (uint8_t)sum;                            // 7*8 = 56 is the maximum checksum value, minimum is 0
+}
+
+
 
 void commandGen(){
     int command[8] = {0};
