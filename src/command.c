@@ -82,7 +82,7 @@ void set_scale(int * data) {
 
 void request_measure(int* data) {
     printf("Request measurement command\n");
-    long timestamp = ask_time("Enter the timestamp");
+    long long timestamp = ask_time("Enter the timestamp");
 
     // Timestamp is coded in reverse order because the satellite needs little-endian timestamps
     data[5] = (timestamp >> 24) & 0xFF;
@@ -98,10 +98,10 @@ void request_measure(int* data) {
 
 void request_selftest(int* data) {
     printf("Request selftest command\n");
-    long timestamp = ask_time("Enter the timestamp");
+    long long timestamp = ask_time("Enter the timestamp");
 
     // Timestamp is coded in reverse order because the satellite needs little-endian timestamps
-    data[5] = timestamp >> 24;
+    data[5] = (timestamp >> 24) & 0xFF;
     data[4] = (timestamp >> 16) & 0xFF;
     data[3] = (timestamp >> 8) & 0xFF;
     data[2] = timestamp & 0xFF;
@@ -110,7 +110,7 @@ void request_selftest(int* data) {
 void timesync_command(int* command_data) {
     printf("Timesync command\n");
     long timestamp = ask_time("Enter the timestamp");
-    command_data[3] = timestamp >> 24;
+    command_data[3] = (timestamp >> 24) & 0xFF;
     command_data[2] = (timestamp >> 16) & 0xFF;
     command_data[1] = (timestamp >> 8) & 0xFF;
     command_data[0] = timestamp & 0xFF;
