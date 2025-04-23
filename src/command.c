@@ -67,7 +67,7 @@ void set_scale(int * data) {
 
     bool check_res (int num) {
         const int items[] = {1, 8, 16, 32, 64, 128 };
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             if (num == items[i]) return true;
         }
