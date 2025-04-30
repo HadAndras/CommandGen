@@ -66,7 +66,7 @@ void set_scale(int * data) {
     data[4] = max_voltage & 0xFF;
 
     bool check_res (int num) {
-        const int items[] = {1, 8, 16, 32, 64, 128 };
+        const int items[] = {1, 8, 16, 32, 64, 128, 256, 512 };
         for (int i = 0; i < 6; i++)
         {
             if (num == items[i]) return true;
@@ -75,7 +75,8 @@ void set_scale(int * data) {
     }
 
     do {
-        data[5] = ask_int("Resolution [1,8-128]:", 1, 128);
+        int channel_number = ask_int("Resolution [1,8-512] (numbers of chanels, powers of two):", 1, 512);
+        if (channel_number == 1){data[5] = 0;} else {data[5] = channel_number/8;};
     } while(!check_res(data[5]));
     data[6] = ask_int("Sampling [1-255]:", 1, 255);
 }
