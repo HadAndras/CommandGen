@@ -66,8 +66,8 @@ void set_scale(int * data) {
     data[4] = max_voltage & 0xFF;
 
     bool check_res (int num) {
-        const int items[] = {1, 8, 16, 32, 64, 128, 256, 512 };
-        for (int i = 0; i < 6; i++)
+        const int items[] = {1, 8, 16, 32, 64, 128, 256, 512, 1024 };
+        for (int i = 0; i < 9; i++)
         {
             if (num == items[i]) return true;
         }
