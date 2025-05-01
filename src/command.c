@@ -75,7 +75,7 @@ void set_scale(int * data) {
     }
 
     do {
-        int channel_number = ask_int("Resolution [1,8-512] (numbers of chanels, powers of two):", 1, 512);
+        int channel_number = ask_int("Resolution [1,8-1024] (numbers of chanels, powers of two):", 1, 1024);
         if (channel_number == 1){data[5] = 0;} else {data[5] = channel_number/8;};
     } while(!check_res(data[5]));
     data[6] = ask_int("Sampling [1-255]:", 1, 255);
