@@ -1,3 +1,0 @@
-/home/andras/Downloads/CommandGen-main/cmake-build-debug/CMakeFiles/CommandGen_main.dir
-/home/andras/Downloads/CommandGen-main/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/andras/Downloads/CommandGen-main/cmake-build-debug/CMakeFiles/rebuild_cache.dir
